@@ -13,7 +13,8 @@ namespace Keycloak.Net
         private ISerializer _serializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
+            NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+            
         });
 
         private readonly Url _url;
@@ -56,18 +57,29 @@ namespace Keycloak.Net
         private IFlurlRequest GetBaseUrl(string authenticationRealm) => new Url(_url)
             .AppendPathSegment(_options.Prefix)
             .ConfigureRequest(settings => settings.JsonSerializer = _serializer)
-            .WithAuthentication(_getToken, _url, authenticationRealm, _userName, _password, _clientSecret, _options);
+            .WithAuthentication(_getToken, _url,
+                _options.AuthenticationRealmName ?? authenticationRealm
+                , _userName, _password, _clientSecret, _options);
     }
 
     public class KeycloakOptions
     {
-        public string Prefix { get; }
-        public string AdminClientId { get; }
+        public string Prefix { get; set; }
+        public string AdminClientId { get; set; }
+        public string AuthenticationRealmName { get; set; }
 
-        public KeycloakOptions(string prefix = "", string adminClientId = "admin-cli")
+        public KeycloakOptions(string prefix = "", string adminClientId = "admin-cli", string authenticationRealmName = null)
         {
             Prefix = prefix.TrimStart('/').TrimEnd('/');
             AdminClientId = adminClientId;
+            AuthenticationRealmName = authenticationRealmName;
         }
+        public KeycloakOptions()
+        {
+            Prefix = "";
+            AdminClientId = "admin-cli";
+            AuthenticationRealmName = null;
+        }
+
     }
 }

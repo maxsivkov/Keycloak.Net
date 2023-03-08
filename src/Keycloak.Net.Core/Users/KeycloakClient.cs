@@ -84,12 +84,12 @@ namespace Keycloak.Net
 			return response.IsSuccessStatusCode;
 		}
 
-		[Obsolete("Not working yet")]
-		public async Task<string> GetUserConsentsAsync(string realm, string userId, CancellationToken cancellationToken = default)
+		//[Obsolete("Not working yet")]
+		public async Task<IEnumerable<UserConsent>> GetUserConsentsAsync(string realm, string userId, CancellationToken cancellationToken = default)
 		{
 			return await GetBaseUrl(realm)
 				.AppendPathSegment($"/admin/realms/{realm}/users/{userId}/consents")
-				.GetStringAsync(cancellationToken)
+				.GetJsonAsync<IEnumerable<UserConsent>>(cancellationToken)
 				.ConfigureAwait(false);
 		}
 

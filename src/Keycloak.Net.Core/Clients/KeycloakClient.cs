@@ -39,13 +39,17 @@ namespace Keycloak.Net
                 .PostJsonAsync(client, cancellationToken)
                 .ConfigureAwait(false);
         }
-
-        public async Task<IEnumerable<Client>> GetClientsAsync(string realm, string clientId = null, bool? viewableOnly = null, CancellationToken cancellationToken = default)
+        // https://www.keycloak.org/docs-api/15.0/rest-api/index.html#_clients_resource
+        public async Task<IEnumerable<Client>> GetClientsAsync(string realm, string clientId = null, bool? search=null, bool? viewableOnly = null,
+            int? first = null, int? max = null, CancellationToken cancellationToken = default)
         {
             var queryParams = new Dictionary<string, object>
             {
                 [nameof(clientId)] = clientId,
-                [nameof(viewableOnly)] = viewableOnly
+                [nameof(search)] = search,
+                [nameof(viewableOnly)] = viewableOnly,
+                [nameof(first)] = first,
+                [nameof(max)] = max,
             };
 
             return await GetBaseUrl(realm)

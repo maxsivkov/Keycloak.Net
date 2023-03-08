@@ -5,7 +5,9 @@ namespace Keycloak.Net.Models.Users
 {
 	public class Credentials
 	{
-		[JsonProperty("algorithm")]
+        [JsonProperty("id")]
+        public string Id { get; set; }
+        [JsonProperty("algorithm")]
 		public string Algorithm { get; set; }
 		[JsonProperty("config")]
 		public IDictionary<string, string> Config { get; set; }
@@ -13,7 +15,14 @@ namespace Keycloak.Net.Models.Users
 		public int? Counter { get; set; }
 		[JsonProperty("createdDate")]
 		public long? CreatedDate { get; set; }
-		[JsonProperty("device")]
+        [JsonProperty("credentialData")]
+        public string CredentialData { get; set; }
+
+        [JsonProperty("secretData")]
+        public string SecretData { get; set; }
+        [JsonProperty("userLabel")]
+        public string UserLabel { get; set; }
+        [JsonProperty("device")]
 		public string Device { get; set; }
 		[JsonProperty("digits")]
 		public int? Digits { get; set; }

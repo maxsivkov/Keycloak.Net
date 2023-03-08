@@ -9,6 +9,8 @@ namespace Keycloak.Net.Models.Clients
         public string Id { get; set; }
         [JsonProperty("clientId")]
         public string ClientId { get; set; }
+        [JsonProperty("description")]
+        public string Description { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
         [JsonProperty("baseUrl")]
